@@ -1,0 +1,42 @@
+label {
+  font-weight: bold;
+}
+
+.nav-link {
+  font-size: 24px; 
+  font-weight: bold;
+}
+
+.navbar {
+  border: 5px solid #E59F6C; /* Cambia "black" al color deseado y ajusta el grosor del borde según tus necesidades */
+}
+
+.navbar-custom {
+  background-color: #9D5F31; 
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link,
+.navbar-custom .dropdown-item {
+  color: #1F2339; 
+}
+
+
+.logo {
+	width: 296px;
+	height: 33px;
+}
+
+.btn-group-xs > .btn, .btn-xs {
+  padding: .5rem .5rem;
+  font-size: .875rem;
+  line-height: .5;
+  border-radius: .2rem;
+}
+
+
+body {
+  background: linear-gradient(to bottom, #C27740, #FFCCA6);
+}
+
+

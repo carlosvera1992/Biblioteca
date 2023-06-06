@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+
+
+<head th:replace="~{plantillas/principal :: head}"></head>
+
+<body>
+	<header th:replace="~{plantillas/principal :: header}"></header>
+
+	<div class="container  py-4">
+
+		<div class="card bg-light">
+			<div class="card-header">
+				<h3 class="text-secondary" th:text="${titulo}"></h3>
+			</div>
+			<div class="card-body">
+				<h4 class="card-title"></h4>
+				
+				
+
+				<ul class="list-group">
+					<li class="list-group-item"><b>Titulo: </b> <i th:text="${libro.titulo}"></i></li>
+					<li class="list-group-item"><b>Edición: </b> <i th:text="${libro.edicion}"></i></li>
+					<li class="list-group-item"><b>Año: </b><i th:text="${libro.anho}"></i></li>
+					<li class="list-group-item"><b>isbn: </b> <i th:text="${libro.isbn}"></i></li>
+					<li class="list-group-item"><b>Editorial: </b> <i th:text="${libro.editorial.nombreCompleto}"></i></li>
+					 
+				</ul>
+				
+				<img class="img-thumbnail rounded float-left" style="max-width: 25%"
+				 th:src="@{'/uploads/' + ${libro.caratula}}" th:alt="${libro.caratula}"
+				 th:if="${#strings.length(libro.caratula) > 0}">
+
+				
+			</div>
+			
+	</div>
+	<footer th:replace="~{plantillas/principal :: footer}"></footer>
+</body>
+
+</html>

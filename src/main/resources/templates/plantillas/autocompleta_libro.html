@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<body>
+<script th:fragment="script">
+$(document).ready(function(){
+	
+ var itemAgregado = false;
+	
+  $("#buscar_libro").autocomplete({
+    source: function(request, response){
+      $.ajax({
+        url: "/biblioteca/cargarlibros/" + request.term,
+        dataType: "json",
+        data: {term: request.term},
+        type: "GET",
+        success: function(data){
+          response($.map(data, function(item){
+            return {
+              value: item.id,
+              label: item.titulo,
+              edicion: item.edicion,
+              isbn: item.isbn,
+            };
+          }));
+        },
+      });
+    },
+    select: function(event, ui){
+     if (!itemAgregado) {
+      $("#buscar_libro").val(ui.item.label);
+      
+      let linea = $("#plantilla_detalle").html();
+      linea = linea.replace(/{ID}/g, ui.item.value);
+      linea = linea.replace(/{TITULO}/g, ui.item.label);
+      linea = linea.replace(/{EDICION}/g, ui.item.edicion);
+       linea = linea.replace(/{ISBN}/g, ui.item.isbn);
+      $("#cargar_detalle tbody").append(linea);
+      
+     itemAgregado = true; 
+     }
+      
+      return false;
+    },
+  });
+});
+
+
+
+</script>
+</body>
+</html>

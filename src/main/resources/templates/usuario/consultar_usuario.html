@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
+
+
+<head th:replace="~{plantillas/principal :: head}"></head>
+
+<body>
+	<header th:replace="~{plantillas/principal :: header}"></header>
+
+	<div class="container  py-4">
+
+		<div class="card bg-light">
+			<div class="card-header">
+				<h3 class="text-secondary" th:text="${titulo}"></h3>
+			</div>
+			<div class="card-body">
+				<h4 class="card-title"></h4>
+				
+				
+
+				<ul class="list-group">
+					<li class="list-group-item"><b>Nombre y Apellidos: </b> <i th:text="${usuario.nombre}+ ' ' + ${usuario.apellidos}"></i></li>
+					<li class="list-group-item"><b>Identificación: </b> <i th:text="${usuario.identificacion}"></i></li>
+					<li class="list-group-item"><b>Correo: </b><i th:text="${usuario.correo}"></i></li>
+					<li class="list-group-item"><b>Fecha Ingreso: </b> <i th:text="${usuario.fechaIngreso}"></i></li>
+					<li class="list-group-item"><b>Teléfono: </b> <i th:text="${usuario.telefono}"></i></li>
+					<li class="list-group-item"><b>Activo: </b> <i><span th:if="${usuario.activo}">Activo</span>
+							<span th:unless="${usuario.activo}">Inactivo</span></i></li>
+					
+				</ul>
+				
+				<img class="img-thumbnail rounded float-left" style="max-width: 15%"
+				 th:src="@{'/uploads/' + ${usuario.foto}}" th:alt="${usuario.foto}"
+				 th:if="${#strings.length(usuario.foto) > 0}">
+
+				
+			</div>
+		</div>
+	</div>
+	<footer th:replace="~{plantillas/principal :: footer}"></footer>
+</body>
+
+</html>
