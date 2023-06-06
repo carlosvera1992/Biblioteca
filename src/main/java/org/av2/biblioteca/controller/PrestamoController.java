@@ -21,39 +21,36 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/biblioteca")
 @SessionAttributes("prestamo")
 public class PrestamoController {
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
-	
+
 	@Autowired
 	private PrestamoService prestamoService;
-	
+
 	@GetMapping("/prestamonuevo/{id}")
-	public String prestamoNuevo(@PathVariable(name = "id") Long id, Model model, RedirectAttributes flash ) {
+	public String prestamoNuevo(@PathVariable(name = "id") Long id, Model model, RedirectAttributes flash) {
 		Usuario usuario = usuarioService.buscarUsuarioPorId(id);
-		if(usuario == null) {
+		if (usuario == null) {
 			flash.addFlashAttribute("error", "El Usuario No existe en la base de datos !!");
 			return "redirect:/biblioteca/usuariolistar";
 		}
-		
+
 		Prestamo prestamo = new Prestamo();
 		prestamo.setUsuario(usuario);
-		
+
 		model.addAttribute("titulo", "Nuevo prestamo");
 		model.addAttribute("btn_accion", "Guarda Prestamo");
 		model.addAttribute("prestamo", prestamo);
-		
-		
+
 		return "prestamo/prestamo";
 	}
-	
-	
-	
-	
-	
+
 	@GetMapping(value = "/cargarlibros/{term}", produces = "application/json")
-	public @ResponseBody List<Libro> buscarLibrosTitulo(@PathVariable(name = "term") String term){
-		return prestamoService.buscarTodosLibrosPorTitulo(term);
+	public @ResponseBody List<Libro> buscarLibrosTitulo(@PathVariable(name = "term") String term) {
+
+		List<Libro> libros = prestamoService.buscarTodosLibrosPorTitulo(term);
+		return libros;
 	}
 
 }

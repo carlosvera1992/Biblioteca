@@ -10,16 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PrestamoServiceImpl implements PrestamoService {
-	
+
 	@Autowired
 	private LibroDAO libroDAO;
-	
-
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Libro> buscarTodosLibrosPorTitulo(String term) {
-		return libroDAO.buscarPorDescripcion(term);
+		return libroDAO.buscarLibrosConEjemplares(term);
 	}
 
 }

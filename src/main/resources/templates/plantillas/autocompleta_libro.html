@@ -1,51 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
+
 <body>
-<script th:fragment="script">
-$(document).ready(function(){
-	
- var itemAgregado = false;
-	
-  $("#buscar_libro").autocomplete({
-    source: function(request, response){
-      $.ajax({
-        url: "/biblioteca/cargarlibros/" + request.term,
-        dataType: "json",
-        data: {term: request.term},
-        type: "GET",
-        success: function(data){
-          response($.map(data, function(item){
-            return {
-              value: item.id,
-              label: item.titulo,
-              edicion: item.edicion,
-              isbn: item.isbn,
-            };
-          }));
-        },
-      });
-    },
-    select: function(event, ui){
-     if (!itemAgregado) {
-      $("#buscar_libro").val(ui.item.label);
-      
-      let linea = $("#plantilla_detalle").html();
-      linea = linea.replace(/{ID}/g, ui.item.value);
-      linea = linea.replace(/{TITULO}/g, ui.item.label);
-      linea = linea.replace(/{EDICION}/g, ui.item.edicion);
-       linea = linea.replace(/{ISBN}/g, ui.item.isbn);
-      $("#cargar_detalle tbody").append(linea);
-      
-     itemAgregado = true; 
-     }
-      
-      return false;
-    },
-  });
-});
+	<script th:fragment="script">
+		$(document).ready(function () {
+
+			var itemAgregado = false;
+
+			$("#buscar_libro").autocomplete({
+				source: function (request, response) {
+					$.ajax({
+						url: "/biblioteca/cargarlibros/" + request.term,
+						dataType: "json",
+						data: {term: request.term},
+						type: "GET",
+						success: function (data) {
+							response($.map(data, function (item) {
+								return {
+									value: item.id,
+									label: item.titulo,
+									edicion: item.edicion,
+									isbn: item.isbn,
+									ejemplares: item.ejemplares
+								};
+							}));
+						},
+					});
+				},
+				select: function (event, ui) {
+					if (!itemAgregado) {
+						$("#buscar_libro").val(ui.item.label);
+
+						let linea = $("#plantilla_detalle").html();
+						linea = linea.replace(/{ID}/g, ui.item.value);
+						linea = linea.replace(/{TITULO}/g, ui.item.label);
+						linea = linea.replace(/{EDICION}/g, ui.item.edicion);
+						linea = linea.replace(/{ISBN}/g, ui.item.isbn);
+						$("#cargar_detalle tbody").append(linea);
 
 
+						let selectEjemplares = $("<select>");
+						selectEjemplares.attr("name", "ejemplar_" + ui.item.value);
+						selectEjemplares.attr("id", "ejemplar_" + ui.item.value);
+						selectEjemplares.addClass("form-control");
+						selectEjemplares.append($("<option>").text("Seleccione un ejemplar"));
 
-</script>
+						$.each(ui.item.ejemplares, function (index, ejemplar) {
+							selectEjemplares.append($("<option>").attr("value", ejemplar.id).text(ejemplar.numeroEjemplar));
+						});
+
+						$("#fila_" + ui.item.value).find("td:eq(4)").html(selectEjemplares);
+
+						itemAgregado = true;
+					}
+
+					return false;
+				},
+			});
+		});
+	</script>
 </body>
+
 </html>
